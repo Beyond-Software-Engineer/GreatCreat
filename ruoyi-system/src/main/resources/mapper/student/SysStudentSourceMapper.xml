@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.student.SysStudentSourceMapper">
+    <resultMap type="SysStudentSource" id="SysStudentSourceResult">
+        <id     property="sourceId"        column="source_id"        />
+        <result property="enrollmentYear"  column="enrollment_year"  />
+        <result property="sourceProvince"  column="source_province"  />
+        <result property="sourceCity"      column="source_city"      />
+        <result property="graduationSchool" column="graduation_school" />
+        <result property="studentCount"    column="student_count"    />
+        <result property="avgEntranceScore" column="avg_entrance_score" />
+        <result property="createBy"        column="create_by"        />
+        <result property="createTime"      column="create_time"      />
+        <result property="updateBy"        column="update_by"        />
+        <result property="updateTime"      column="update_time"      />
+        <result property="remark"          column="remark"          />
+    </resultMap>
+
+    <sql id="selectSysStudentSourceVo">
+        select source_id, enrollment_year, source_province, source_city, graduation_school, student_count, avg_entrance_score, create_by, create_time, update_by, update_time, remark from sys_student_source
+    </sql>
+
+    <select id="selectSysStudentSourceBySourceId" parameterType="Long" resultMap="SysStudentSourceResult">
+        <include refid="selectSysStudentSourceVo" />
+        where source_id = #{sourceId}
+    </select>
+
+    <select id="selectSysStudentSourceList" parameterType="SysStudentSource" resultMap="SysStudentSourceResult">
+        <include refid="selectSysStudentSourceVo" />
+        <where>
+            <if test="enrollmentYear != null and enrollmentYear != ''">
+                AND enrollment_year = #{enrollmentYear}
+            </if>
+            <if test="sourceProvince != null and sourceProvince != ''">
+                AND source_province like concat('%', #{sourceProvince}, '%')
+            </if>
+            <if test="sourceCity != null and sourceCity != ''">
+                AND source_city like concat('%', #{sourceCity}, '%')
+            </if>
+            <if test="graduationSchool != null and graduationSchool != ''">
+                AND graduation_school like concat('%', #{graduationSchool}, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSysStudentSource" parameterType="SysStudentSource" useGeneratedKeys="true" keyProperty="sourceId">
+        insert into sys_student_source
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="enrollmentYear != null">enrollment_year,</if>
+            <if test="sourceProvince != null">source_province,</if>
+            <if test="sourceCity != null">source_city,</if>
+            <if test="graduationSchool != null">graduation_school,</if>
+            <if test="studentCount != null">student_count,</if>
+            <if test="avgEntranceScore != null">avg_entrance_score,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="enrollmentYear != null">#{enrollmentYear},</if>
+            <if test="sourceProvince != null">#{sourceProvince},</if>
+            <if test="sourceCity != null">#{sourceCity},</if>
+            <if test="graduationSchool != null">#{graduationSchool},</if>
+            <if test="studentCount != null">#{studentCount},</if>
+            <if test="avgEntranceScore != null">#{avgEntranceScore},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysStudentSource" parameterType="SysStudentSource">
+        update sys_student_source
+        <set>
+            <if test="enrollmentYear != null">enrollment_year = #{enrollmentYear},</if>
+            <if test="sourceProvince != null">source_province = #{sourceProvince},</if>
+            <if test="sourceCity != null">source_city = #{sourceCity},</if>
+            <if test="graduationSchool != null">graduation_school = #{graduationSchool},</if>
+            <if test="studentCount != null">student_count = #{studentCount},</if>
+            <if test="avgEntranceScore != null">avg_entrance_score = #{avgEntranceScore},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where source_id = #{sourceId}
+    </update>
+
+    <delete id="deleteSysStudentSourceBySourceId" parameterType="Long">
+        delete from sys_student_source where source_id = #{sourceId}
+    </delete>
+
+    <delete id="deleteSysStudentSourceBySourceIds" parameterType="Long[]">
+        delete from sys_student_source where source_id in 
+        <foreach item="sourceId" collection="array" open="(" separator="," close=")">
+            #{sourceId}
+        </foreach>
+    </delete>
+</mapper>

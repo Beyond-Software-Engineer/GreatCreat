@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.research.SysResearchPaperMapper">
+    <resultMap type="SysResearchPaper" id="SysResearchPaperResult">
+        <id     property="paperId"        column="paper_id"        />
+        <result property="paperTitle"     column="paper_title"     />
+        <result property="author"         column="author"         />
+        <result property="publishJournal" column="publish_journal" />
+        <result property="indexType"      column="index_type"      />
+        <result property="paperZone"      column="paper_zone"      />
+        <result property="publishTime"    column="publish_time"    />
+        <result property="attachmentUrl"  column="attachment_url"  />
+        <result property="status"         column="status"         />
+        <result property="createBy"       column="create_by"       />
+        <result property="createTime"     column="create_time"     />
+        <result property="updateBy"       column="update_by"       />
+        <result property="updateTime"     column="update_time"     />
+        <result property="remark"         column="remark"         />
+    </resultMap>
+
+    <sql id="selectSysResearchPaperVo">
+        select paper_id, paper_title, author, publish_journal, index_type, paper_zone, publish_time, attachment_url, status, create_by, create_time, update_by, update_time, remark from sys_research_paper
+    </sql>
+
+    <select id="selectSysResearchPaperByPaperId" parameterType="Long" resultMap="SysResearchPaperResult">
+        <include refid="selectSysResearchPaperVo" />
+        where paper_id = #{paperId}
+    </select>
+
+    <select id="selectSysResearchPaperList" parameterType="SysResearchPaper" resultMap="SysResearchPaperResult">
+        <include refid="selectSysResearchPaperVo" />
+        <where>
+            <if test="paperTitle != null and paperTitle != ''">
+                AND paper_title like concat('%', #{paperTitle}, '%')
+            </if>
+            <if test="author != null and author != ''">
+                AND author like concat('%', #{author}, '%')
+            </if>
+            <if test="publishJournal != null and publishJournal != ''">
+                AND publish_journal like concat('%', #{publishJournal}, '%')
+            </if>
+            <if test="indexType != null and indexType != ''">
+                AND index_type = #{indexType}
+            </if>
+            <if test="paperZone != null and paperZone != ''">
+                AND paper_zone = #{paperZone}
+            </if>
+            <if test="publishTime != null">
+                AND publish_time = #{publishTime}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSysResearchPaper" parameterType="SysResearchPaper" useGeneratedKeys="true" keyProperty="paperId">
+        insert into sys_research_paper
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="paperTitle != null">paper_title,</if>
+            <if test="author != null">author,</if>
+            <if test="publishJournal != null">publish_journal,</if>
+            <if test="indexType != null">index_type,</if>
+            <if test="paperZone != null">paper_zone,</if>
+            <if test="publishTime != null">publish_time,</if>
+            <if test="attachmentUrl != null">attachment_url,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="paperTitle != null">#{paperTitle},</if>
+            <if test="author != null">#{author},</if>
+            <if test="publishJournal != null">#{publishJournal},</if>
+            <if test="indexType != null">#{indexType},</if>
+            <if test="paperZone != null">#{paperZone},</if>
+            <if test="publishTime != null">#{publishTime},</if>
+            <if test="attachmentUrl != null">#{attachmentUrl},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysResearchPaper" parameterType="SysResearchPaper">
+        update sys_research_paper
+        <set>
+            <if test="paperTitle != null">paper_title = #{paperTitle},</if>
+            <if test="author != null">author = #{author},</if>
+            <if test="publishJournal != null">publish_journal = #{publishJournal},</if>
+            <if test="indexType != null">index_type = #{indexType},</if>
+            <if test="paperZone != null">paper_zone = #{paperZone},</if>
+            <if test="publishTime != null">publish_time = #{publishTime},</if>
+            <if test="attachmentUrl != null">attachment_url = #{attachmentUrl},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where paper_id = #{paperId}
+    </update>
+
+    <delete id="deleteSysResearchPaperByPaperId" parameterType="Long">
+        delete from sys_research_paper where paper_id = #{paperId}
+    </delete>
+
+    <delete id="deleteSysResearchPaperByPaperIds" parameterType="Long[]">
+        delete from sys_research_paper where paper_id in 
+        <foreach item="paperId" collection="array" open="(" separator="," close=")">
+            #{paperId}
+        </foreach>
+    </delete>
+</mapper>

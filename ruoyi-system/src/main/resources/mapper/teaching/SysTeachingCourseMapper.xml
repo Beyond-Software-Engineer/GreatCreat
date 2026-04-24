@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.teaching.SysTeachingCourseMapper">
+    <resultMap type="SysTeachingCourse" id="SysTeachingCourseResult">
+        <id     property="courseId"     column="course_id"     />
+        <result property="semester"     column="semester"     />
+        <result property="courseName"   column="course_name"   />
+        <result property="courseCode"   column="course_code"   />
+        <result property="teacherName"  column="teacher_name"  />
+        <result property="majorName"    column="major_name"    />
+        <result property="className"    column="class_name"    />
+        <result property="courseHours"  column="course_hours"  />
+        <result property="courseType"   column="course_type"   />
+        <result property="status"       column="status"       />
+        <result property="createBy"     column="create_by"     />
+        <result property="createTime"   column="create_time"   />
+        <result property="updateBy"     column="update_by"     />
+        <result property="updateTime"   column="update_time"   />
+        <result property="remark"       column="remark"       />
+    </resultMap>
+
+    <sql id="selectSysTeachingCourseVo">
+        select course_id, semester, course_name, course_code, teacher_name, major_name, class_name, course_hours, course_type, status, create_by, create_time, update_by, update_time, remark from sys_teaching_course
+    </sql>
+
+    <select id="selectSysTeachingCourseByCourseId" parameterType="Long" resultMap="SysTeachingCourseResult">
+        <include refid="selectSysTeachingCourseVo" />
+        where course_id = #{courseId}
+    </select>
+
+    <select id="selectSysTeachingCourseList" parameterType="SysTeachingCourse" resultMap="SysTeachingCourseResult">
+        <include refid="selectSysTeachingCourseVo" />
+        <where>
+            <if test="semester != null and semester != ''">
+                AND semester = #{semester}
+            </if>
+            <if test="courseName != null and courseName != ''">
+                AND course_name like concat('%', #{courseName}, '%')
+            </if>
+            <if test="courseCode != null and courseCode != ''">
+                AND course_code = #{courseCode}
+            </if>
+            <if test="teacherName != null and teacherName != ''">
+                AND teacher_name like concat('%', #{teacherName}, '%')
+            </if>
+            <if test="majorName != null and majorName != ''">
+                AND major_name like concat('%', #{majorName}, '%')
+            </if>
+            <if test="className != null and className != ''">
+                AND class_name like concat('%', #{className}, '%')
+            </if>
+            <if test="courseType != null and courseType != ''">
+                AND course_type = #{courseType}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSysTeachingCourse" parameterType="SysTeachingCourse" useGeneratedKeys="true" keyProperty="courseId">
+        insert into sys_teaching_course
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="semester != null">semester,</if>
+            <if test="courseName != null">course_name,</if>
+            <if test="courseCode != null">course_code,</if>
+            <if test="teacherName != null">teacher_name,</if>
+            <if test="majorName != null">major_name,</if>
+            <if test="className != null">class_name,</if>
+            <if test="courseHours != null">course_hours,</if>
+            <if test="courseType != null">course_type,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="semester != null">#{semester},</if>
+            <if test="courseName != null">#{courseName},</if>
+            <if test="courseCode != null">#{courseCode},</if>
+            <if test="teacherName != null">#{teacherName},</if>
+            <if test="majorName != null">#{majorName},</if>
+            <if test="className != null">#{className},</if>
+            <if test="courseHours != null">#{courseHours},</if>
+            <if test="courseType != null">#{courseType},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysTeachingCourse" parameterType="SysTeachingCourse">
+        update sys_teaching_course
+        <set>
+            <if test="semester != null">semester = #{semester},</if>
+            <if test="courseName != null">course_name = #{courseName},</if>
+            <if test="courseCode != null">course_code = #{courseCode},</if>
+            <if test="teacherName != null">teacher_name = #{teacherName},</if>
+            <if test="majorName != null">major_name = #{majorName},</if>
+            <if test="className != null">class_name = #{className},</if>
+            <if test="courseHours != null">course_hours = #{courseHours},</if>
+            <if test="courseType != null">course_type = #{courseType},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where course_id = #{courseId}
+    </update>
+
+    <delete id="deleteSysTeachingCourseByCourseId" parameterType="Long">
+        delete from sys_teaching_course where course_id = #{courseId}
+    </delete>
+
+    <delete id="deleteSysTeachingCourseByCourseIds" parameterType="Long[]">
+        delete from sys_teaching_course where course_id in 
+        <foreach item="courseId" collection="array" open="(" separator="," close=")">
+            #{courseId}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.research.SysResearchFundingMapper">
+    <resultMap type="SysResearchFunding" id="SysResearchFundingResult">
+        <id     property="fundingId"      column="funding_id"      />
+        <result property="fundingName"    column="funding_name"    />
+        <result property="fundingLeader"  column="funding_leader"  />
+        <result property="arrivalAmount"  column="arrival_amount"  />
+        <result property="arrivalTime"    column="arrival_time"    />
+        <result property="payerUnit"      column="payer_unit"      />
+        <result property="attachmentUrl"  column="attachment_url"  />
+        <result property="status"         column="status"         />
+        <result property="createBy"       column="create_by"       />
+        <result property="createTime"     column="create_time"     />
+        <result property="updateBy"       column="update_by"       />
+        <result property="updateTime"     column="update_time"     />
+        <result property="remark"         column="remark"         />
+    </resultMap>
+
+    <sql id="selectSysResearchFundingVo">
+        select funding_id, funding_name, funding_leader, arrival_amount, arrival_time, payer_unit, attachment_url, status, create_by, create_time, update_by, update_time, remark from sys_research_funding
+    </sql>
+
+    <select id="selectSysResearchFundingByFundingId" parameterType="Long" resultMap="SysResearchFundingResult">
+        <include refid="selectSysResearchFundingVo" />
+        where funding_id = #{fundingId}
+    </select>
+
+    <select id="selectSysResearchFundingList" parameterType="SysResearchFunding" resultMap="SysResearchFundingResult">
+        <include refid="selectSysResearchFundingVo" />
+        <where>
+            <if test="fundingName != null and fundingName != ''">
+                AND funding_name like concat('%', #{fundingName}, '%')
+            </if>
+            <if test="fundingLeader != null and fundingLeader != ''">
+                AND funding_leader like concat('%', #{fundingLeader}, '%')
+            </if>
+            <if test="arrivalAmount != null">
+                AND arrival_amount = #{arrivalAmount}
+            </if>
+            <if test="arrivalTime != null">
+                AND arrival_time = #{arrivalTime}
+            </if>
+            <if test="payerUnit != null and payerUnit != ''">
+                AND payer_unit like concat('%', #{payerUnit}, '%')
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSysResearchFunding" parameterType="SysResearchFunding" useGeneratedKeys="true" keyProperty="fundingId">
+        insert into sys_research_funding
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="fundingName != null">funding_name,</if>
+            <if test="fundingLeader != null">funding_leader,</if>
+            <if test="arrivalAmount != null">arrival_amount,</if>
+            <if test="arrivalTime != null">arrival_time,</if>
+            <if test="payerUnit != null">payer_unit,</if>
+            <if test="attachmentUrl != null">attachment_url,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="fundingName != null">#{fundingName},</if>
+            <if test="fundingLeader != null">#{fundingLeader},</if>
+            <if test="arrivalAmount != null">#{arrivalAmount},</if>
+            <if test="arrivalTime != null">#{arrivalTime},</if>
+            <if test="payerUnit != null">#{payerUnit},</if>
+            <if test="attachmentUrl != null">#{attachmentUrl},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysResearchFunding" parameterType="SysResearchFunding">
+        update sys_research_funding
+        <set>
+            <if test="fundingName != null">funding_name = #{fundingName},</if>
+            <if test="fundingLeader != null">funding_leader = #{fundingLeader},</if>
+            <if test="arrivalAmount != null">arrival_amount = #{arrivalAmount},</if>
+            <if test="arrivalTime != null">arrival_time = #{arrivalTime},</if>
+            <if test="payerUnit != null">payer_unit = #{payerUnit},</if>
+            <if test="attachmentUrl != null">attachment_url = #{attachmentUrl},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where funding_id = #{fundingId}
+    </update>
+
+    <delete id="deleteSysResearchFundingByFundingId" parameterType="Long">
+        delete from sys_research_funding where funding_id = #{fundingId}
+    </delete>
+
+    <delete id="deleteSysResearchFundingByFundingIds" parameterType="Long[]">
+        delete from sys_research_funding where funding_id in 
+        <foreach item="fundingId" collection="array" open="(" separator="," close=")">
+            #{fundingId}
+        </foreach>
+    </delete>
+</mapper>

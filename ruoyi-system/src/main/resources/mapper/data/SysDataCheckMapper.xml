@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.data.SysDataCheckMapper">
+    <resultMap type="SysDataCheck" id="SysDataCheckResult">
+        <id     property="checkId"      column="check_id"      />
+        <result property="checkType"    column="check_type"    />
+        <result property="checkDataId"  column="check_data_id"  />
+        <result property="checkResult"  column="check_result"  />
+        <result property="checkReason"  column="check_reason"  />
+        <result property="checker"      column="checker"      />
+        <result property="checkTime"    column="check_time"    />
+        <result property="createBy"     column="create_by"     />
+        <result property="createTime"   column="create_time"   />
+        <result property="updateBy"     column="update_by"     />
+        <result property="updateTime"   column="update_time"   />
+        <result property="remark"       column="remark"       />
+    </resultMap>
+
+    <sql id="selectSysDataCheckVo">
+        select check_id, check_type, check_data_id, check_result, check_reason, checker, check_time, create_by, create_time, update_by, update_time, remark from sys_data_check
+    </sql>
+
+    <select id="selectSysDataCheckByCheckId" parameterType="Long" resultMap="SysDataCheckResult">
+        <include refid="selectSysDataCheckVo" />
+        where check_id = #{checkId}
+    </select>
+
+    <select id="selectSysDataCheckList" parameterType="SysDataCheck" resultMap="SysDataCheckResult">
+        <include refid="selectSysDataCheckVo" />
+        <where>
+            <if test="checkType != null and checkType != ''">
+                AND check_type = #{checkType}
+            </if>
+            <if test="checkDataId != null and checkDataId != ''">
+                AND check_data_id = #{checkDataId}
+            </if>
+            <if test="checkResult != null and checkResult != ''">
+                AND check_result = #{checkResult}
+            </if>
+            <if test="checker != null and checker != ''">
+                AND checker like concat('%', #{checker}, '%')
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSysDataCheck" parameterType="SysDataCheck" useGeneratedKeys="true" keyProperty="checkId">
+        insert into sys_data_check
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="checkType != null">check_type,</if>
+            <if test="checkDataId != null">check_data_id,</if>
+            <if test="checkResult != null">check_result,</if>
+            <if test="checkReason != null">check_reason,</if>
+            <if test="checker != null">checker,</if>
+            <if test="checkTime != null">check_time,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="checkType != null">#{checkType},</if>
+            <if test="checkDataId != null">#{checkDataId},</if>
+            <if test="checkResult != null">#{checkResult},</if>
+            <if test="checkReason != null">#{checkReason},</if>
+            <if test="checker != null">#{checker},</if>
+            <if test="checkTime != null">#{checkTime},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysDataCheck" parameterType="SysDataCheck">
+        update sys_data_check
+        <set>
+            <if test="checkType != null">check_type = #{checkType},</if>
+            <if test="checkDataId != null">check_data_id = #{checkDataId},</if>
+            <if test="checkResult != null">check_result = #{checkResult},</if>
+            <if test="checkReason != null">check_reason = #{checkReason},</if>
+            <if test="checker != null">checker = #{checker},</if>
+            <if test="checkTime != null">check_time = #{checkTime},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where check_id = #{checkId}
+    </update>
+
+    <delete id="deleteSysDataCheckByCheckId" parameterType="Long">
+        delete from sys_data_check where check_id = #{checkId}
+    </delete>
+
+    <delete id="deleteSysDataCheckByCheckIds" parameterType="Long[]">
+        delete from sys_data_check where check_id in 
+        <foreach item="checkId" collection="array" open="(" separator="," close=")">
+            #{checkId}
+        </foreach>
+    </delete>
+</mapper>

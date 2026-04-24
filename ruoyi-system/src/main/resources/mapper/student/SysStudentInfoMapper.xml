@@ -1,0 +1,145 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ruoyi.system.mapper.student.SysStudentInfoMapper">
+    <resultMap type="SysStudentInfo" id="SysStudentInfoResult">
+        <id     property="studentId"       column="student_id"       />
+        <result property="studentNo"       column="student_no"       />
+        <result property="studentName"     column="student_name"     />
+        <result property="gender"          column="gender"          />
+        <result property="majorName"       column="major_name"       />
+        <result property="className"       column="class_name"       />
+        <result property="enrollmentYear"  column="enrollment_year"  />
+        <result property="sourceCity"      column="source_city"      />
+        <result property="graduationSchool" column="graduation_school" />
+        <result property="entranceScore"   column="entrance_score"   />
+        <result property="contactInfo"     column="contact_info"     />
+        <result property="studentStatus"   column="student_status"   />
+        <result property="status"          column="status"          />
+        <result property="createBy"        column="create_by"        />
+        <result property="createTime"      column="create_time"      />
+        <result property="updateBy"        column="update_by"        />
+        <result property="updateTime"      column="update_time"      />
+        <result property="remark"          column="remark"          />
+    </resultMap>
+
+    <sql id="selectSysStudentInfoVo">
+        select student_id, student_no, student_name, gender, major_name, class_name, enrollment_year, source_city, graduation_school, entrance_score, contact_info, student_status, status, create_by, create_time, update_by, update_time, remark from sys_student_info
+    </sql>
+
+    <select id="selectSysStudentInfoByStudentId" parameterType="Long" resultMap="SysStudentInfoResult">
+        <include refid="selectSysStudentInfoVo" />
+        where student_id = #{studentId}
+    </select>
+
+    <select id="selectSysStudentInfoList" parameterType="SysStudentInfo" resultMap="SysStudentInfoResult">
+        <include refid="selectSysStudentInfoVo" />
+        <where>
+            <if test="studentNo != null and studentNo != ''">
+                AND student_no = #{studentNo}
+            </if>
+            <if test="studentName != null and studentName != ''">
+                AND student_name like concat('%', #{studentName}, '%')
+            </if>
+            <if test="gender != null and gender != ''">
+                AND gender = #{gender}
+            </if>
+            <if test="majorName != null and majorName != ''">
+                AND major_name like concat('%', #{majorName}, '%')
+            </if>
+            <if test="className != null and className != ''">
+                AND class_name like concat('%', #{className}, '%')
+            </if>
+            <if test="enrollmentYear != null and enrollmentYear != ''">
+                AND enrollment_year = #{enrollmentYear}
+            </if>
+            <if test="sourceCity != null and sourceCity != ''">
+                AND source_city like concat('%', #{sourceCity}, '%')
+            </if>
+            <if test="studentStatus != null and studentStatus != ''">
+                AND student_status = #{studentStatus}
+            </if>
+            <if test="status != null and status != ''">
+                AND status = #{status}
+            </if>
+        </where>
+    </select>
+
+    <insert id="insertSysStudentInfo" parameterType="SysStudentInfo" useGeneratedKeys="true" keyProperty="studentId">
+        insert into sys_student_info
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="studentNo != null">student_no,</if>
+            <if test="studentName != null">student_name,</if>
+            <if test="gender != null">gender,</if>
+            <if test="majorName != null">major_name,</if>
+            <if test="className != null">class_name,</if>
+            <if test="enrollmentYear != null">enrollment_year,</if>
+            <if test="sourceCity != null">source_city,</if>
+            <if test="graduationSchool != null">graduation_school,</if>
+            <if test="entranceScore != null">entrance_score,</if>
+            <if test="contactInfo != null">contact_info,</if>
+            <if test="studentStatus != null">student_status,</if>
+            <if test="status != null">status,</if>
+            <if test="createBy != null">create_by,</if>
+            <if test="createTime != null">create_time,</if>
+            <if test="updateBy != null">update_by,</if>
+            <if test="updateTime != null">update_time,</if>
+            <if test="remark != null">remark,</if>
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="studentNo != null">#{studentNo},</if>
+            <if test="studentName != null">#{studentName},</if>
+            <if test="gender != null">#{gender},</if>
+            <if test="majorName != null">#{majorName},</if>
+            <if test="className != null">#{className},</if>
+            <if test="enrollmentYear != null">#{enrollmentYear},</if>
+            <if test="sourceCity != null">#{sourceCity},</if>
+            <if test="graduationSchool != null">#{graduationSchool},</if>
+            <if test="entranceScore != null">#{entranceScore},</if>
+            <if test="contactInfo != null">#{contactInfo},</if>
+            <if test="studentStatus != null">#{studentStatus},</if>
+            <if test="status != null">#{status},</if>
+            <if test="createBy != null">#{createBy},</if>
+            <if test="createTime != null">#{createTime},</if>
+            <if test="updateBy != null">#{updateBy},</if>
+            <if test="updateTime != null">#{updateTime},</if>
+            <if test="remark != null">#{remark},</if>
+        </trim>
+    </insert>
+
+    <update id="updateSysStudentInfo" parameterType="SysStudentInfo">
+        update sys_student_info
+        <set>
+            <if test="studentNo != null">student_no = #{studentNo},</if>
+            <if test="studentName != null">student_name = #{studentName},</if>
+            <if test="gender != null">gender = #{gender},</if>
+            <if test="majorName != null">major_name = #{majorName},</if>
+            <if test="className != null">class_name = #{className},</if>
+            <if test="enrollmentYear != null">enrollment_year = #{enrollmentYear},</if>
+            <if test="sourceCity != null">source_city = #{sourceCity},</if>
+            <if test="graduationSchool != null">graduation_school = #{graduationSchool},</if>
+            <if test="entranceScore != null">entrance_score = #{entranceScore},</if>
+            <if test="contactInfo != null">contact_info = #{contactInfo},</if>
+            <if test="studentStatus != null">student_status = #{studentStatus},</if>
+            <if test="status != null">status = #{status},</if>
+            <if test="createBy != null">create_by = #{createBy},</if>
+            <if test="createTime != null">create_time = #{createTime},</if>
+            <if test="updateBy != null">update_by = #{updateBy},</if>
+            <if test="updateTime != null">update_time = #{updateTime},</if>
+            <if test="remark != null">remark = #{remark},</if>
+        </set>
+        where student_id = #{studentId}
+    </update>
+
+    <delete id="deleteSysStudentInfoByStudentId" parameterType="Long">
+        delete from sys_student_info where student_id = #{studentId}
+    </delete>
+
+    <delete id="deleteSysStudentInfoByStudentIds" parameterType="Long[]">
+        delete from sys_student_info where student_id in 
+        <foreach item="studentId" collection="array" open="(" separator="," close=")">
+            #{studentId}
+        </foreach>
+    </delete>
+</mapper>
